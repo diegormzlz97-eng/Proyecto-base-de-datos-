@@ -4,7 +4,7 @@ import { getConnection  } from '../../config/database.js'
 import { QueryError } from '../../core/errors/connection.error.js'
 import { uuidToBuffer, bufferToUuid } from "../../core/utils/uuid.js";
 
-export class AuthModel {
+export class reportesModel {
 
   static async obtenerPassworsPorUsuario ({ usuario }) {
 
@@ -12,7 +12,7 @@ export class AuthModel {
 
     try { 
       const [result] = await conn.query(
-        'SELECT id,password,nombre,role FROM usuarios WHERE usuario = ?;',
+        'SELECT id,password,nombre,role FROM reportes WHERE reportes = ?;',
         [usuario]
       )
 
@@ -27,29 +27,29 @@ export class AuthModel {
       }
     
     } catch (error) {
-      throw new QueryError('Error al consulta la existencia de un usuario', 502, error)
+      throw new QueryError('Error al consulta la existencia de un reportes', 502, error)
     }
   }
   
-  static async existeUsuario ({ usuario }) {
+  static async existeUsuario ({ reportes }) {
 
     const conn = await getConnection();
 
     try { 
       const [user] = await conn.query(
-        'SELECT EXISTS(SELECT 1 FROM usuarios WHERE usuario = ?) AS user_exists;',
-        [usuario]
+        'SELECT EXISTS(SELECT 1 FROM reportes WHERE reportes = ?) AS user_exists;',
+        [reportes]
       )
 
       const [{ user_exists }] = user
       return user_exists === 1 ? true : false
     
     } catch (error) {
-      throw new QueryError('Error al consulta la existencia de un usuario', 502, error)
+      throw new QueryError('Error al consulta la existencia de un reportes', 502, error)
     }
   }
 
-  static async crearUsuario ({ usuario, password, nombre, role}){
+  static async crearreportes ({ usuario, password, nombre, role}){
 
     const uuid = crypto.randomUUID()
     const hashedPassword = await bcrypt.hash(password, 10)     
@@ -58,18 +58,18 @@ export class AuthModel {
     try { 
      
       const [result] = await conn.query(
-        `INSERT INTO usuarios (id, usuario, password, nombre, role) VALUES (?, ?, ?, ?, ?);`,
+        `INSERT INTO reportes (id, usuario, password, nombre, role) VALUES (?, ?, ?, ?, ?);`,
         [uuidToBuffer(uuid),usuario, hashedPassword, nombre, role]
       )
 
       if(result.affectedRows === 0){
-        throw new QueryError('No se pudo crear el usuario', 502, error)
+        throw new QueryError('No se pudo crear el reportes', 502, error)
       }
 
       return uuid
 
     } catch (error) {
-      throw new QueryError('Error al crear un usuario', 502, error)
+      throw new QueryError('Error al crear un reportes', 502, error)
     }
 
   }

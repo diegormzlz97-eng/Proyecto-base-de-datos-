@@ -1,0 +1,33 @@
+@baseUrl = http://localhost:3000
+
+### Obtener todos los usuarios
+GET {{baseUrl}}/usuarios/consultar
+Content-Type: application/json
+
+{}
+
+### Obtener usuario por id
+GET {{baseUrl}}/usuarios/consultar
+Content-Type: application/json
+
+{
+    "id":"e0abe0af-ed18-4196-847f-7b0630971bb3"
+}
+
+### Actualizar nombre del usuario usando el id
+PUT {{baseUrl}}/usuarios/editar
+Content-Type: application/json
+
+{
+    "id":"ddd7dbd8-6bdd-44e9-b9fe-a4b8e721b08d",
+    "nombre": "User 123"
+}
+
+### Eliminar usuario usando el id
+DELETE  {{baseUrl}}/usuarios/eliminar
+Content-Type: application/json
+
+{
+    "id":"e0abe0af-ed18-4196-847f-7b0630971bb3"
+}
+

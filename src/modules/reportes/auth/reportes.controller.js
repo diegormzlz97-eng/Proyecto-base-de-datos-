@@ -1,18 +1,18 @@
-import { validateAuthRegister, validateAuthLogin, errorFlattenError} from './auth.schema.js'
-import { AuthService } from './auth.service.js'
+import { validateAuthRegister, validateAuthLogin, errorFlattenError} from './reportes.schema.js'
+import { AuthService } from './reportes.service.js'
 
-export class AuthController {
+export class reportesController {
 
   login = async (req, res, next) => {
 
-    const result = validateAuthLogin(req.body)
+    const result = validatereportesLogin(req.body)
 
     if (!result.success) {return res.status(400).json({ status: "error_bad_request ", error: errorFlattenError(result.error)})}
 
     const { usuario, password} = req.body
 
     try {
-      const user = await AuthService.login({usuario, password})
+      const user = await reportesService.login({usuario, password})
   
       res
       .cookie('access_token', user.token , {httpOnly: process.env.HTTP_ONLY, sameSite: process.env.SAME_SITE, maxAge: process.env.MAX_AGE})
@@ -42,7 +42,7 @@ export class AuthController {
     const { usuario, password, nombre, role} = req.body
 
     try {
-      const user = await AuthService.register({usuario, password, nombre, role})
+      const user = await reportesService.register({usuario, password, nombre, role})
       res.status(201).json({
         status: "success", 
         id: user
